@@ -54,57 +54,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+
+$titulo = $id ? 'Editar partido' : 'Nuevo partido';
+include 'includes/cabecera.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title><?= $id ? 'Editar' : 'Nuevo' ?> partido</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1><?= $id ? 'Editar' : 'Nuevo' ?> partido</h1>
+  <main class="contenedor">
+    <?php tituloSeccion('🏀', $titulo, 'Elige los equipos, la fecha y, si ya se jugó, el marcador.',
+        '<a class="boton-volver" href="partidos.php">← Volver a partidos</a>'); ?>
 
-  <?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+    <?php if ($error): ?>
+      <p class="alerta error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-  <?php if (count($equipos) < 2): ?>
-    <p>Necesitas al menos dos equipos. <a href="equipo_form.php">Crear equipo</a></p>
-  <?php else: ?>
-  <form method="POST">
-    <label>Equipo local</label><br>
-    <select name="equipo_local_id" required>
-      <option value="">Selecciona...</option>
-      <?php foreach ($equipos as $equipo): ?>
-        <option value="<?= $equipo['id'] ?>" <?= $partido['equipo_local_id'] == $equipo['id'] ? 'selected' : '' ?>>
-          <?= htmlspecialchars($equipo['nombre']) ?>
-        </option>
-      <?php endforeach; ?>
-    </select><br><br>
-
-    <label>Equipo visitante</label><br>
-    <select name="equipo_visitante_id" required>
-      <option value="">Selecciona...</option>
-      <?php foreach ($equipos as $equipo): ?>
-        <option value="<?= $equipo['id'] ?>" <?= $partido['equipo_visitante_id'] == $equipo['id'] ? 'selected' : '' ?>>
-          <?= htmlspecialchars($equipo['nombre']) ?>
-        </option>
-      <?php endforeach; ?>
-    </select><br><br>
-
-    <label>Fecha</label><br>
-    <input type="date" name="fecha" value="<?= htmlspecialchars($partido['fecha']) ?>" required><br><br>
-
-    <label>Puntos del local (vacío si está pendiente)</label><br>
-    <input type="number" name="puntos_local" min="0" value="<?= htmlspecialchars((string)$partido['puntos_local']) ?>"><br><br>
-
-    <label>Puntos del visitante (vacío si está pendiente)</label><br>
-    <input type="number" name="puntos_visitante" min="0" value="<?= htmlspecialchars((string)$partido['puntos_visitante']) ?>"><br><br>
-
-    <button type="submit">Guardar</button>
-    <a href="partidos.php">Cancelar</a>
-  </form>
-  <?php endif; ?>
-</body>
-</html>
+    <?php if (count($equipos) < 2): ?>
+      <p class="alerta">Necesitas al menos dos equipos. <a href="equipo_form.php">Crear equipo</a></p>
+    <?php else: ?>
+      <form method="POST" class="formulario formulario-tarjeta">
+        <div class="campo">
+          <label>Equipo local</label>
+          <select name="equipo_local_id" required>
+            <option value="">Selecciona...</option>
+            <?php foreach ($equipos as $equipo): ?>
+              <option value="<?= $equipo['id'] ?>" <?= $partido['equipo_local_id'] == $equipo['id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($equipo['nombre']) ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Equipo visitante</label>
+          <select name="equipo_visitante_id" required>
+            <option value="">Selecciona...</option>
+            <?php foreach ($equipos as $equipo): ?>
+              <option value="<?= $equipo['id'] ?>" <?= $partido['equipo_visitante_id'] == $equipo['id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($equipo['nombre']) ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Fecha</label>
+          <input type="date" name="fecha" value="<?= htmlspecialchars($partido['fecha']) ?>" required>
+        </div>
+        <div class="campo">
+          <label>Puntos del local (vacío si está pendiente)</label>
+          <input type="number" name="puntos_local" min="0" value="<?= htmlspecialchars((string)$partido['puntos_local']) ?>">
+        </div>
+        <div class="campo">
+          <label>Puntos del visitante (vacío si está pendiente)</label>
+          <input type="number" name="puntos_visitante" min="0" value="<?= htmlspecialchars((string)$partido['puntos_visitante']) ?>">
+        </div>
+        <button type="submit">Guardar</button>
+        <a href="partidos.php" class="btn-chico">Cancelar</a>
+      </form>
+    <?php endif; ?>
+  </main>
+<?php include 'includes/pie.php'; ?>
