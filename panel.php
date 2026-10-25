@@ -19,6 +19,7 @@ if (!isset($_SESSION['usuario_id'])) {
   <p>Panel de la Liga de Básquetbol.</p>
   <p><a href="equipos.php">Gestionar equipos</a></p>
   <p><a href="jugadores.php">Gestionar jugadores</a></p>
+  <p><a href="partidos.php">Gestionar partidos</a></p>
   <a href="salir.php">Cerrar sesión</a>
 </body>
 </html>
