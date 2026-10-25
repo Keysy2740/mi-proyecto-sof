@@ -23,35 +23,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Correo o contraseña incorrectos.';
     }
 }
+
+$titulo = 'Iniciar sesión';
+include 'includes/cabecera.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Iniciar sesión - Liga de Básquetbol</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Iniciar sesión</h1>
+  <main class="auth">
+    <div class="auth-caja">
+      <h1>Iniciar sesión</h1>
+      <p class="auth-sub">Entra para gestionar la liga.</p>
 
-  <?php if (isset($_GET['registrado'])): ?>
-    <p style="color:green;">Cuenta creada. Ya puedes iniciar sesión.</p>
-  <?php endif; ?>
+      <?php if (isset($_GET['registrado'])): ?>
+        <p class="alerta exito">Cuenta creada. Ya puedes iniciar sesión.</p>
+      <?php endif; ?>
 
-  <?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+      <?php if ($error): ?>
+        <p class="alerta error"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
 
-  <form method="POST">
-    <label>Correo</label><br>
-    <input type="email" name="correo" required><br><br>
+      <form method="POST" class="formulario">
+        <div class="campo">
+          <label>Correo</label>
+          <input type="email" name="correo" required>
+        </div>
+        <div class="campo">
+          <label>Contraseña</label>
+          <input type="password" name="contrasena" required>
+        </div>
+        <button type="submit">Entrar</button>
+      </form>
 
-    <label>Contraseña</label><br>
-    <input type="password" name="contrasena" required><br><br>
-
-    <button type="submit">Entrar</button>
-  </form>
-
-  <p>¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
-</body>
-</html>
+      <p class="auth-pie">¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
+    </div>
+  </main>
+<?php include 'includes/pie.php'; ?>
