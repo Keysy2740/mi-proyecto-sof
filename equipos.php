@@ -4,7 +4,7 @@ require 'config/database.php';
 
 // Solo usuarios con sesión iniciada
 if (!isset($_SESSION['usuario_id'])) {
-    header('Location: login.php');
+    header('Location: ingreso.php');
     exit;
 }
 
@@ -27,7 +27,7 @@ $equipos = $pdo->query('SELECT * FROM equipos ORDER BY nombre')->fetchAll(PDO::F
 </head>
 <body>
   <h1>Equipos</h1>
-  <p><a href="dashboard.php">Volver al panel</a> | <a href="equipo_form.php">Nuevo equipo</a></p>
+  <p><a href="panel.php">Volver al panel</a> | <a href="equipo_form.php">Nuevo equipo</a></p>
 
   <table border="1" cellpadding="8">
     <tr>

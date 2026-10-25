@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare('INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)');
             $stmt->execute([$nombre, $correo, $hash]);
 
-            header('Location: login.php?registrado=1');
+            header('Location: ingreso.php?registrado=1');
             exit;
         }
     }
@@ -57,6 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Registrarme</button>
   </form>
 
-  <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></p>
+  <p>¿Ya tienes cuenta? <a href="ingreso.php">Inicia sesión</a></p>
 </body>
 </html>

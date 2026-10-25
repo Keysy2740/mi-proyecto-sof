@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
         $_SESSION['usuario_id']     = $usuario['id'];
         $_SESSION['usuario_nombre'] = $usuario['nombre'];
-        header('Location: dashboard.php');
+        header('Location: panel.php');
         exit;
     } else {
         $error = 'Correo o contraseña incorrectos.';
@@ -52,6 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Entrar</button>
   </form>
 
-  <p>¿No tienes cuenta? <a href="register.php">Regístrate</a></p>
+  <p>¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
 </body>
 </html>
