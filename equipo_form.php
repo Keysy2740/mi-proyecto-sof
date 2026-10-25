@@ -38,33 +38,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+
+$titulo = $id ? 'Editar equipo' : 'Nuevo equipo';
+include 'includes/cabecera.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title><?= $id ? 'Editar' : 'Nuevo' ?> equipo</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1><?= $id ? 'Editar' : 'Nuevo' ?> equipo</h1>
+  <main class="contenedor">
+    <?php tituloSeccion('👥', $titulo, 'Completa los datos del equipo.',
+        '<a class="boton-volver" href="equipos.php">← Volver a equipos</a>'); ?>
 
-  <?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+    <?php if ($error): ?>
+      <p class="alerta error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-  <form method="POST">
-    <label>Nombre</label><br>
-    <input type="text" name="nombre" value="<?= htmlspecialchars($equipo['nombre']) ?>" required><br><br>
-
-    <label>Ciudad</label><br>
-    <input type="text" name="ciudad" value="<?= htmlspecialchars($equipo['ciudad']) ?>" required><br><br>
-
-    <label>Entrenador</label><br>
-    <input type="text" name="entrenador" value="<?= htmlspecialchars($equipo['entrenador']) ?>"><br><br>
-
-    <button type="submit">Guardar</button>
-    <a href="equipos.php">Cancelar</a>
-  </form>
-</body>
-</html>
+    <form method="POST" class="formulario formulario-tarjeta">
+      <div class="campo">
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="<?= htmlspecialchars($equipo['nombre']) ?>" required>
+      </div>
+      <div class="campo">
+        <label>Ciudad</label>
+        <input type="text" name="ciudad" value="<?= htmlspecialchars($equipo['ciudad']) ?>" required>
+      </div>
+      <div class="campo">
+        <label>Entrenador</label>
+        <input type="text" name="entrenador" value="<?= htmlspecialchars($equipo['entrenador']) ?>">
+      </div>
+      <button type="submit">Guardar</button>
+      <a href="equipos.php" class="btn-chico">Cancelar</a>
+    </form>
+  </main>
+<?php include 'includes/pie.php'; ?>
