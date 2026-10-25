@@ -1,21 +1,22 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/EquipoControlador.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ingreso.php');
     exit;
 }
 
-$id     = $_GET['id'] ?? null;
+$controlador = new EquipoControlador($pdo);
+
+$id     = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $equipo = ['nombre' => '', 'ciudad' => '', 'entrenador' => ''];
 $error  = '';
 
 // Si hay id, cargamos el equipo para editarlo
 if ($id) {
-    $stmt = $pdo->prepare('SELECT * FROM equipos WHERE id = ?');
-    $stmt->execute([$id]);
-    $equipo = $stmt->fetch(PDO::FETCH_ASSOC);
+    $equipo = $controlador->buscar($id);
     if (!$equipo) {
         header('Location: equipos.php');
         exit;
@@ -23,21 +24,16 @@ if ($id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre     = trim($_POST['nombre']);
-    $ciudad     = trim($_POST['ciudad']);
-    $entrenador = trim($_POST['entrenador']);
+    $equipo = [
+        'nombre'     => $_POST['nombre'],
+        'ciudad'     => $_POST['ciudad'],
+        'entrenador' => $_POST['entrenador'],
+    ];
 
-    if ($nombre === '' || $ciudad === '') {
-        $error  = 'El nombre y la ciudad son obligatorios.';
-        $equipo = ['nombre' => $nombre, 'ciudad' => $ciudad, 'entrenador' => $entrenador];
-    } else {
-        if ($id) {
-            $stmt = $pdo->prepare('UPDATE equipos SET nombre = ?, ciudad = ?, entrenador = ? WHERE id = ?');
-            $stmt->execute([$nombre, $ciudad, $entrenador, $id]);
-        } else {
-            $stmt = $pdo->prepare('INSERT INTO equipos (nombre, ciudad, entrenador) VALUES (?, ?, ?)');
-            $stmt->execute([$nombre, $ciudad, $entrenador]);
-        }
+    // El controlador valida y guarda; devuelve el error o una cadena vacía
+    $error = $controlador->guardar($id, $equipo['nombre'], $equipo['ciudad'], $equipo['entrenador']);
+
+    if ($error === '') {
         header('Location: equipos.php');
         exit;
     }

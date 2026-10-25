@@ -1,44 +1,26 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/JugadorControlador.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ingreso.php');
     exit;
 }
 
+$controlador = new JugadorControlador($pdo);
+
 // Eliminar jugador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
-    $stmt = $pdo->prepare('DELETE FROM jugadores WHERE id = ?');
-    $stmt->execute([$_POST['eliminar_id']]);
+    $controlador->eliminar((int)$_POST['eliminar_id']);
     header('Location: jugadores.php?equipo_id=' . (int)($_POST['equipo_id'] ?? 0));
     exit;
 }
 
-// Lista de equipos para el filtro
-$equipos = $pdo->query('SELECT id, nombre FROM equipos ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
-
-// Si hay equipo seleccionado, filtramos; si no, mostramos todos
+// Si hay equipo seleccionado en el filtro, mostramos solo sus jugadores
 $equipo_id = (int)($_GET['equipo_id'] ?? 0);
-
-if ($equipo_id > 0) {
-    $stmt = $pdo->prepare(
-        'SELECT j.*, e.nombre AS equipo
-         FROM jugadores j
-         JOIN equipos e ON e.id = j.equipo_id
-         WHERE j.equipo_id = ?
-         ORDER BY j.numero'
-    );
-    $stmt->execute([$equipo_id]);
-} else {
-    $stmt = $pdo->query(
-        'SELECT j.*, e.nombre AS equipo
-         FROM jugadores j
-         JOIN equipos e ON e.id = j.equipo_id
-         ORDER BY e.nombre, j.numero'
-    );
-}
-$jugadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$equipos   = $controlador->equipos();
+$jugadores = $controlador->listar($equipo_id);
 ?>
 <!DOCTYPE html>
 <html lang="es">
