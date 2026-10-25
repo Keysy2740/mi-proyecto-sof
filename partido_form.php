@@ -1,13 +1,16 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/PartidoControlador.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ingreso.php');
     exit;
 }
 
-$id      = $_GET['id'] ?? null;
+$controlador = new PartidoControlador($pdo);
+
+$id      = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $partido = [
     'equipo_local_id'     => '',
     'equipo_visitante_id' => '',
@@ -15,15 +18,12 @@ $partido = [
     'puntos_visitante'    => '',
     'fecha'               => date('Y-m-d'),
 ];
-$error = '';
-
-$equipos = $pdo->query('SELECT id, nombre FROM equipos ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
+$error   = '';
+$equipos = $controlador->equipos();
 
 // Si hay id, cargamos el partido para editarlo
 if ($id) {
-    $stmt = $pdo->prepare('SELECT * FROM partidos WHERE id = ?');
-    $stmt->execute([$id]);
-    $partido = $stmt->fetch(PDO::FETCH_ASSOC);
+    $partido = $controlador->buscar($id);
     if (!$partido) {
         header('Location: partidos.php');
         exit;
@@ -31,47 +31,25 @@ if ($id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $local     = (int)$_POST['equipo_local_id'];
-    $visitante = (int)$_POST['equipo_visitante_id'];
-    $fecha     = $_POST['fecha'];
-
-    // Los puntos son opcionales: vacío significa partido pendiente (NULL)
-    $puntos_local     = $_POST['puntos_local'] === '' ? null : (int)$_POST['puntos_local'];
-    $puntos_visitante = $_POST['puntos_visitante'] === '' ? null : (int)$_POST['puntos_visitante'];
-
     $partido = [
-        'equipo_local_id'     => $local,
-        'equipo_visitante_id' => $visitante,
-        'puntos_local'        => $puntos_local,
-        'puntos_visitante'    => $puntos_visitante,
-        'fecha'               => $fecha,
+        'equipo_local_id'     => (int)$_POST['equipo_local_id'],
+        'equipo_visitante_id' => (int)$_POST['equipo_visitante_id'],
+        'puntos_local'        => $_POST['puntos_local'],
+        'puntos_visitante'    => $_POST['puntos_visitante'],
+        'fecha'               => $_POST['fecha'],
     ];
 
-    if ($local === 0 || $visitante === 0 || $fecha === '') {
-        $error = 'Debes elegir los dos equipos y la fecha.';
-    } elseif ($local === $visitante) {
-        $error = 'Un equipo no puede jugar contra sí mismo.';
-    } elseif (($puntos_local === null) !== ($puntos_visitante === null)) {
-        $error = 'Ingresa los puntos de ambos equipos, o deja los dos vacíos si el partido está pendiente.';
-    } elseif (($puntos_local !== null && $puntos_local < 0) || ($puntos_visitante !== null && $puntos_visitante < 0)) {
-        $error = 'Los puntos no pueden ser negativos.';
-    } elseif ($puntos_local !== null && $puntos_local === $puntos_visitante) {
-        $error = 'En básquetbol no hay empates: los puntos deben ser distintos.';
-    } else {
-        if ($id) {
-            $stmt = $pdo->prepare(
-                'UPDATE partidos
-                 SET equipo_local_id = ?, equipo_visitante_id = ?, puntos_local = ?, puntos_visitante = ?, fecha = ?
-                 WHERE id = ?'
-            );
-            $stmt->execute([$local, $visitante, $puntos_local, $puntos_visitante, $fecha, $id]);
-        } else {
-            $stmt = $pdo->prepare(
-                'INSERT INTO partidos (equipo_local_id, equipo_visitante_id, puntos_local, puntos_visitante, fecha)
-                 VALUES (?, ?, ?, ?, ?)'
-            );
-            $stmt->execute([$local, $visitante, $puntos_local, $puntos_visitante, $fecha]);
-        }
+    // El controlador valida y guarda; devuelve el error o una cadena vacía
+    $error = $controlador->guardar(
+        $id,
+        $partido['equipo_local_id'],
+        $partido['equipo_visitante_id'],
+        $partido['fecha'],
+        $partido['puntos_local'],
+        $partido['puntos_visitante']
+    );
+
+    if ($error === '') {
         header('Location: partidos.php');
         exit;
     }
