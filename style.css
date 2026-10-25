@@ -310,3 +310,193 @@ td button:hover {
 .banner-texto .boton {
   margin-top: 10px;
 }
+
+/* ===== Portada con tema oscuro ===== */
+/* Todo va dentro de la clase "inicio", así las otras páginas no cambian */
+
+body.inicio {
+  background-color: #0f1115;
+  color: #ffffff;
+  max-width: none;
+  padding: 0;
+}
+
+/* Caja centrada para el contenido */
+.contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Encabezado oscuro */
+.inicio .encabezado {
+  background-color: #15181e;
+  border-bottom: 1px solid #2a2f36;
+  border-radius: 0;
+  padding: 10px 40px;
+}
+
+/* El logo tiene fondo blanco, por eso va dentro de una cajita blanca */
+.inicio .encabezado img {
+  height: 46px;
+  background-color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.inicio .navegacion a {
+  color: #ffffff;
+}
+
+.inicio .navegacion a:hover {
+  color: #f57c00;
+}
+
+/* Botones del menú */
+.inicio .navegacion a.boton-menu {
+  background-color: #f57c00;
+  border-radius: 6px;
+}
+
+.inicio .navegacion a.boton-menu:hover {
+  background-color: #e53d12;
+  color: #ffffff;
+}
+
+.inicio .navegacion a.boton-borde {
+  border: 1px solid #777777;
+  border-radius: 6px;
+}
+
+.inicio .navegacion a.salir {
+  background-color: #f57c00;
+}
+
+/* Imagen principal con capa oscura encima */
+.hero {
+  background-image: url("img/portada.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-capa {
+  background-color: rgba(10, 12, 16, 0.72);
+  padding: 100px 0;
+}
+
+.hero h2 {
+  font-size: 54px;
+  line-height: 1.1;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+/* La segunda línea del título va en naranja */
+.hero h2 span {
+  color: #f57c00;
+}
+
+.hero p {
+  color: #cccccc;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* Las tres tarjetas oscuras */
+.bloques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: -40px;
+}
+
+.bloque {
+  flex: 1;
+  min-width: 260px;
+  background-color: #1a1e25;
+  border: 1px solid #2a2f36;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.bloque h3 {
+  margin-top: 0;
+  color: #ffffff;
+}
+
+.vacio {
+  color: #999999;
+}
+
+/* Lista de próximos partidos */
+.partido-mini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #232830;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.partido-mini small {
+  color: #f57c00;
+  font-weight: bold;
+}
+
+/* La tabla de posiciones se adapta al fondo oscuro */
+.inicio table {
+  background-color: transparent;
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.inicio th {
+  background-color: transparent;
+  color: #999999;
+  border-bottom: 1px solid #2a2f36;
+  padding: 8px;
+}
+
+.inicio td {
+  color: #ffffff;
+  border-bottom: 1px solid #2a2f36;
+  padding: 8px;
+}
+
+.inicio tr:hover td {
+  background-color: #232830;
+}
+
+/* Círculos con la inicial de cada equipo */
+.equipos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.equipo-item {
+  text-align: center;
+  width: 80px;
+}
+
+.insignia {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 6px auto;
+  background-color: #f57c00;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 60px;
+  border-radius: 50%;
+}
+
+.equipo-item small {
+  color: #cccccc;
+}
+
+.inicio .pie {
+  color: #888888;
+}
