@@ -1,9 +1,180 @@
-    body {
-      background-color: powderblue;
-    }
-    h1 {
-      color: blue;
-    }
-    p {
-      color: red;
-    }
+
+:root {
+  --color-principal: #1d428a;   /* azul de los encabezados */
+  --color-acento:    #f58426;   /* naranja de botones y detalles */
+  --color-fondo:     #f3f5f9;   /* fondo de la página */
+  --color-tarjeta:   #ffffff;   /* fondo de tablas y formularios */
+  --color-texto:     #1f2937;
+  --color-borde:     #d9dee8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  line-height: 1.5;
+}
+
+/* ===== Títulos ===== */
+h1 {
+  color: var(--color-principal);
+  border-bottom: 4px solid var(--color-acento);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+/* ===== Enlaces ===== */
+a {
+  color: var(--color-principal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  color: var(--color-acento);
+  text-decoration: underline;
+}
+
+/* ===== Tablas ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-tarjeta);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 12px;
+}
+
+th {
+  background: var(--color-principal);
+  color: #ffffff;
+  text-align: left;
+  padding: 12px;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+tr:nth-child(even) td {
+  background: #f8f9fc;
+}
+
+tr:hover td {
+  background: #fff3e8;
+}
+
+/* ===== Formularios ===== */
+form {
+  background: var(--color-tarjeta);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+}
+
+/* El formulario dentro de una tabla (botón Eliminar) no lleva tarjeta */
+td form {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  max-width: none;
+  display: inline;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 9px 10px;
+  margin-top: 4px;
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #ffffff;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 3px rgba(245, 132, 38, 0.25);
+}
+
+/* El filtro de jugadores no necesita ser ancho */
+form[method="GET"] {
+  max-width: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+form[method="GET"] select {
+  width: auto;
+  margin-top: 0;
+}
+
+/* ===== Botones ===== */
+button {
+  background: var(--color-acento);
+  color: #ffffff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #d96d12;
+}
+
+/* El botón Eliminar de las tablas va en rojo y más pequeño */
+td button {
+  background: #dc2626;
+  padding: 5px 12px;
+  font-size: 0.85rem;
+}
+
+td button:hover {
+  background: #b91c1c;
+}
+
+/* ===== Mensajes ===== */
+p[style*="color:red"] {
+  background: #fee2e2;
+  border-left: 4px solid #dc2626;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+p[style*="color:green"] {
+  background: #dcfce7;
+  border-left: 4px solid #16a34a;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+/* ===== Textos auxiliares ===== */
+p {
+  margin: 10px 0;
+}
