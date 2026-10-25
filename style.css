@@ -223,3 +223,90 @@ td button:hover {
   font-size: 14px;
   margin-top: 35px;
 }
+
+/* Banner principal con imagen de fondo */
+.banner {
+  background-image: url("img/portada.jpg");
+  background-size: cover;
+  background-position: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Capa oscura sobre la imagen para que se lea el texto */
+.banner-texto {
+  background-color: rgba(20, 22, 28, 0.62);
+  color: #ffffff;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.banner-texto h2 {
+  font-size: 34px;
+  margin: 0 0 10px 0;
+}
+
+.banner-texto p {
+  font-size: 18px;
+}
+
+/* Recuadros con los números de la liga */
+.numeros {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.numero {
+  flex: 1;
+  background-color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  border-bottom: 4px solid #f57c00;
+  border-radius: 8px;
+}
+
+.numero strong {
+  display: block;
+  font-size: 40px;
+  color: #e53d12;
+}
+
+.numero span {
+  color: #2a2f36;
+  font-weight: bold;
+}
+
+/* Tarjetas de los últimos resultados */
+.resultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.resultado {
+  background-color: #ffffff;
+  flex: 1;
+  min-width: 220px;
+  padding: 15px;
+  text-align: center;
+  border-top: 4px solid #2a2f36;
+  border-radius: 8px;
+}
+
+.resultado small {
+  color: #777777;
+}
+
+.resultado strong {
+  display: block;
+  font-size: 24px;
+  color: #e53d12;
+  margin: 6px 0;
+}
+
+/* Botones de la portada sobre la imagen */
+.banner-texto .boton {
+  margin-top: 10px;
+}
