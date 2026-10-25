@@ -1,29 +1,28 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/JugadorControlador.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ingreso.php');
     exit;
 }
 
-$id      = $_GET['id'] ?? null;
+$controlador = new JugadorControlador($pdo);
+
+$id      = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $jugador = [
     'nombre'    => '',
     'numero'    => '',
     'posicion'  => '',
     'equipo_id' => (int)($_GET['equipo_id'] ?? 0),
 ];
-$error = '';
-
-// Equipos disponibles para el menú desplegable
-$equipos = $pdo->query('SELECT id, nombre FROM equipos ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
+$error   = '';
+$equipos = $controlador->equipos();
 
 // Si hay id, cargamos el jugador para editarlo
 if ($id) {
-    $stmt = $pdo->prepare('SELECT * FROM jugadores WHERE id = ?');
-    $stmt->execute([$id]);
-    $jugador = $stmt->fetch(PDO::FETCH_ASSOC);
+    $jugador = $controlador->buscar($id);
     if (!$jugador) {
         header('Location: jugadores.php');
         exit;
@@ -31,40 +30,25 @@ if ($id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre    = trim($_POST['nombre']);
-    $numero    = (int)$_POST['numero'];
-    $posicion  = trim($_POST['posicion']);
-    $equipo_id = (int)$_POST['equipo_id'];
-
     $jugador = [
-        'nombre'    => $nombre,
-        'numero'    => $numero,
-        'posicion'  => $posicion,
-        'equipo_id' => $equipo_id,
+        'nombre'    => $_POST['nombre'],
+        'numero'    => (int)$_POST['numero'],
+        'posicion'  => $_POST['posicion'],
+        'equipo_id' => (int)$_POST['equipo_id'],
     ];
 
-    if ($nombre === '' || $posicion === '' || $equipo_id === 0) {
-        $error = 'Nombre, posición y equipo son obligatorios.';
-    } elseif ($numero < 0 || $numero > 99) {
-        $error = 'El número de camiseta debe estar entre 0 y 99.';
-    } else {
-        // Un número de camiseta no puede repetirse dentro del mismo equipo
-        $stmt = $pdo->prepare('SELECT id FROM jugadores WHERE equipo_id = ? AND numero = ? AND id <> ?');
-        $stmt->execute([$equipo_id, $numero, $id ?? 0]);
+    // El controlador valida y guarda; devuelve el error o una cadena vacía
+    $error = $controlador->guardar(
+        $id,
+        $jugador['nombre'],
+        $jugador['numero'],
+        $jugador['posicion'],
+        $jugador['equipo_id']
+    );
 
-        if ($stmt->fetch()) {
-            $error = 'Ese número de camiseta ya lo usa otro jugador del equipo.';
-        } else {
-            if ($id) {
-                $stmt = $pdo->prepare('UPDATE jugadores SET nombre = ?, numero = ?, posicion = ?, equipo_id = ? WHERE id = ?');
-                $stmt->execute([$nombre, $numero, $posicion, $equipo_id, $id]);
-            } else {
-                $stmt = $pdo->prepare('INSERT INTO jugadores (nombre, numero, posicion, equipo_id) VALUES (?, ?, ?, ?)');
-                $stmt->execute([$nombre, $numero, $posicion, $equipo_id]);
-            }
-            header('Location: jugadores.php?equipo_id=' . $equipo_id);
-            exit;
-        }
+    if ($error === '') {
+        header('Location: jugadores.php?equipo_id=' . $jugador['equipo_id']);
+        exit;
     }
 }
 
@@ -92,7 +76,7 @@ $posiciones = ['Base', 'Escolta', 'Alero', 'Ala-pívot', 'Pívot'];
     <input type="text" name="nombre" value="<?= htmlspecialchars($jugador['nombre']) ?>" required><br><br>
 
     <label>Número de camiseta</label><br>
-    <input type="number" name="numero" min="0" max="99" value="<?= htmlspecialchars($jugador['numero']) ?>" required><br><br>
+    <input type="number" name="numero" min="0" max="99" value="<?= htmlspecialchars((string)$jugador['numero']) ?>" required><br><br>
 
     <label>Posición</label><br>
     <select name="posicion" required>
