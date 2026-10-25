@@ -24,4 +24,9 @@ class ResumenControlador
     {
         return $this->modelo->ultimosResultados(3);
     }
+
+    public function proximos(): array
+    {
+        return $this->modelo->proximosPartidos(3);
+    }
 }
