@@ -53,52 +53,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $posiciones = ['Base', 'Escolta', 'Alero', 'Ala-pívot', 'Pívot'];
+
+$titulo = $id ? 'Editar jugador' : 'Nuevo jugador';
+include 'includes/cabecera.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title><?= $id ? 'Editar' : 'Nuevo' ?> jugador</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1><?= $id ? 'Editar' : 'Nuevo' ?> jugador</h1>
+  <main class="contenedor">
+    <?php tituloSeccion('🏃', $titulo, 'Completa los datos del jugador.',
+        '<a class="boton-volver" href="jugadores.php">← Volver a jugadores</a>'); ?>
 
-  <?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+    <?php if ($error): ?>
+      <p class="alerta error"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
 
-  <?php if (count($equipos) === 0): ?>
-    <p>Primero debes <a href="equipo_form.php">crear un equipo</a>.</p>
-  <?php else: ?>
-  <form method="POST">
-    <label>Nombre</label><br>
-    <input type="text" name="nombre" value="<?= htmlspecialchars($jugador['nombre']) ?>" required><br><br>
-
-    <label>Número de camiseta</label><br>
-    <input type="number" name="numero" min="0" max="99" value="<?= htmlspecialchars((string)$jugador['numero']) ?>" required><br><br>
-
-    <label>Posición</label><br>
-    <select name="posicion" required>
-      <option value="">Selecciona...</option>
-      <?php foreach ($posiciones as $pos): ?>
-        <option value="<?= $pos ?>" <?= $jugador['posicion'] === $pos ? 'selected' : '' ?>><?= $pos ?></option>
-      <?php endforeach; ?>
-    </select><br><br>
-
-    <label>Equipo</label><br>
-    <select name="equipo_id" required>
-      <option value="">Selecciona...</option>
-      <?php foreach ($equipos as $equipo): ?>
-        <option value="<?= $equipo['id'] ?>" <?= $jugador['equipo_id'] == $equipo['id'] ? 'selected' : '' ?>>
-          <?= htmlspecialchars($equipo['nombre']) ?>
-        </option>
-      <?php endforeach; ?>
-    </select><br><br>
-
-    <button type="submit">Guardar</button>
-    <a href="jugadores.php">Cancelar</a>
-  </form>
-  <?php endif; ?>
-</body>
-</html>
+    <?php if (count($equipos) === 0): ?>
+      <p class="alerta">Primero debes <a href="equipo_form.php">crear un equipo</a>.</p>
+    <?php else: ?>
+      <form method="POST" class="formulario formulario-tarjeta">
+        <div class="campo">
+          <label>Nombre</label>
+          <input type="text" name="nombre" value="<?= htmlspecialchars($jugador['nombre']) ?>" required>
+        </div>
+        <div class="campo">
+          <label>Número de camiseta</label>
+          <input type="number" name="numero" min="0" max="99" value="<?= htmlspecialchars((string)$jugador['numero']) ?>" required>
+        </div>
+        <div class="campo">
+          <label>Posición</label>
+          <select name="posicion" required>
+            <option value="">Selecciona...</option>
+            <?php foreach ($posiciones as $pos): ?>
+              <option value="<?= $pos ?>" <?= $jugador['posicion'] === $pos ? 'selected' : '' ?>><?= $pos ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Equipo</label>
+          <select name="equipo_id" required>
+            <option value="">Selecciona...</option>
+            <?php foreach ($equipos as $equipo): ?>
+              <option value="<?= $equipo['id'] ?>" <?= $jugador['equipo_id'] == $equipo['id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($equipo['nombre']) ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <button type="submit">Guardar</button>
+        <a href="jugadores.php" class="btn-chico">Cancelar</a>
+      </form>
+    <?php endif; ?>
+  </main>
+<?php include 'includes/pie.php'; ?>

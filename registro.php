@@ -29,34 +29,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$titulo = 'Crear cuenta';
+include 'includes/cabecera.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Registro - Liga de Básquetbol</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Crear cuenta</h1>
+  <main class="auth">
+    <div class="auth-caja">
+      <h1>Crear cuenta</h1>
+      <p class="auth-sub">Regístrate para gestionar la liga.</p>
 
-  <?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+      <?php if ($error): ?>
+        <p class="alerta error"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
 
-  <form method="POST">
-    <label>Nombre</label><br>
-    <input type="text" name="nombre" required><br><br>
+      <form method="POST" class="formulario">
+        <div class="campo">
+          <label>Nombre</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="campo">
+          <label>Correo</label>
+          <input type="email" name="correo" required>
+        </div>
+        <div class="campo">
+          <label>Contraseña (mínimo 6 caracteres)</label>
+          <input type="password" name="contrasena" required>
+        </div>
+        <button type="submit">Registrarme</button>
+      </form>
 
-    <label>Correo</label><br>
-    <input type="email" name="correo" required><br><br>
-
-    <label>Contraseña</label><br>
-    <input type="password" name="contrasena" required><br><br>
-
-    <button type="submit">Registrarme</button>
-  </form>
-
-  <p>¿Ya tienes cuenta? <a href="ingreso.php">Inicia sesión</a></p>
-</body>
-</html>
+      <p class="auth-pie">¿Ya tienes cuenta? <a href="ingreso.php">Inicia sesión</a></p>
+    </div>
+  </main>
+<?php include 'includes/pie.php'; ?>
