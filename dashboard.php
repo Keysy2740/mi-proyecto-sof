@@ -2,7 +2,7 @@
 session_start();
 
 // Si no hay sesión iniciada, vuelve al login
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['usuario_id'])) {
     header('Location: login.php');
     exit;
 }
@@ -15,8 +15,9 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Bienvenida, <?= htmlspecialchars($_SESSION['user_name']) ?></h1>
+  <h1>Bienvenida, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></h1>
   <p>Panel de la Liga de Básquetbol.</p>
+  <p><a href="equipos.php">Gestionar equipos</a></p>
   <a href="logout.php">Cerrar sesión</a>
 </body>
 </html>
