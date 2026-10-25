@@ -774,3 +774,32 @@ select:focus {
     grid-template-columns: 1fr;
   }
 }
+
+/* Bloque de Nosotros: texto a la izquierda e imagen a la derecha */
+.nosotros-bloque {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+}
+
+.nosotros-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nosotros-imagen {
+  min-height: 360px;
+  background-color: #232830;
+  background-size: cover;
+  background-position: center 30%;
+  border: 1px solid #2a2f36;
+  border-bottom: 4px solid #f57c00;
+  border-radius: 12px;
+}
+
+@media (max-width: 760px) {
+  .nosotros-bloque {
+    grid-template-columns: 1fr;
+  }
+}
