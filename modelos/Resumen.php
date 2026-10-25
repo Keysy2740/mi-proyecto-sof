@@ -35,4 +35,21 @@ class Resumen
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Próximos partidos: los que todavía no tienen resultado
+    public function proximosPartidos(int $cantidad = 3): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT p.*, l.nombre AS local, v.nombre AS visitante
+             FROM partidos p
+             JOIN equipos l ON l.id = p.equipo_local_id
+             JOIN equipos v ON v.id = p.equipo_visitante_id
+             WHERE p.puntos_local IS NULL OR p.puntos_visitante IS NULL
+             ORDER BY p.fecha ASC, p.id ASC
+             LIMIT ?'
+        );
+        $stmt->bindValue(1, $cantidad, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
