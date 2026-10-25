@@ -1,28 +1,23 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/PartidoControlador.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ingreso.php');
     exit;
 }
 
+$controlador = new PartidoControlador($pdo);
+
 // Eliminar partido
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
-    $stmt = $pdo->prepare('DELETE FROM partidos WHERE id = ?');
-    $stmt->execute([$_POST['eliminar_id']]);
+    $controlador->eliminar((int)$_POST['eliminar_id']);
     header('Location: partidos.php');
     exit;
 }
 
-// Unimos la tabla equipos dos veces: una para el local y otra para el visitante
-$partidos = $pdo->query(
-    'SELECT p.*, l.nombre AS local, v.nombre AS visitante
-     FROM partidos p
-     JOIN equipos l ON l.id = p.equipo_local_id
-     JOIN equipos v ON v.id = p.equipo_visitante_id
-     ORDER BY p.fecha DESC, p.id DESC'
-)->fetchAll(PDO::FETCH_ASSOC);
+$partidos = $controlador->listar();
 ?>
 <!DOCTYPE html>
 <html lang="es">
