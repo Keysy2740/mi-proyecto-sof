@@ -18,6 +18,7 @@ if (!isset($_SESSION['usuario_id'])) {
   <h1>Bienvenida, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></h1>
   <p>Panel de la Liga de Básquetbol.</p>
   <p><a href="equipos.php">Gestionar equipos</a></p>
+  <p><a href="jugadores.php">Gestionar jugadores</a></p>
   <a href="salir.php">Cerrar sesión</a>
 </body>
 </html>
