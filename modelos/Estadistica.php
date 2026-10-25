@@ -31,7 +31,7 @@ class Estadistica
                     WHERE puntos_local IS NOT NULL AND puntos_visitante IS NOT NULL
                 ) t ON t.equipo_id = e.id
                 GROUP BY e.id, e.nombre
-                ORDER BY pg DESC, (pf - pc) DESC, e.nombre';
+                ORDER BY pg DESC, (COALESCE(SUM(t.favor), 0) - COALESCE(SUM(t.contra), 0)) DESC, e.nombre';
 
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
