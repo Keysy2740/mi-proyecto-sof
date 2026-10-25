@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'config/database.php';
+require 'controladores/EquipoControlador.php';
 
 // Solo usuarios con sesión iniciada
 if (!isset($_SESSION['usuario_id'])) {
@@ -8,15 +9,16 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Eliminar equipo (se hace por POST para mayor seguridad)
+$controlador = new EquipoControlador($pdo);
+
+// Eliminar equipo (por POST, para que no se borre con solo abrir una dirección)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
-    $stmt = $pdo->prepare('DELETE FROM equipos WHERE id = ?');
-    $stmt->execute([$_POST['eliminar_id']]);
+    $controlador->eliminar((int)$_POST['eliminar_id']);
     header('Location: equipos.php');
     exit;
 }
 
-$equipos = $pdo->query('SELECT * FROM equipos ORDER BY nombre')->fetchAll(PDO::FETCH_ASSOC);
+$equipos = $controlador->listar();
 ?>
 <!DOCTYPE html>
 <html lang="es">
