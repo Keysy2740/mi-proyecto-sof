@@ -5,19 +5,19 @@ require 'config/database.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email    = trim($_POST['email']);
-    $password = $_POST['password'];
+    $correo     = trim($_POST['correo']);
+    $contrasena = $_POST['contrasena'];
 
     // Consulta preparada: evita inyección SQL
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
-    $stmt->execute([$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE correo = ?');
+    $stmt->execute([$correo]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // password_verify compara la contraseña con el hash guardado
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id']   = $user['id'];
-        $_SESSION['user_name'] = $user['name'];
-        header('Location: dashboard.php');
+    if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
+        $_SESSION['usuario_id']     = $usuario['id'];
+        $_SESSION['usuario_nombre'] = $usuario['nombre'];
+        header('Location: panel.php');
         exit;
     } else {
         $error = 'Correo o contraseña incorrectos.';
@@ -44,14 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="POST">
     <label>Correo</label><br>
-    <input type="email" name="email" required><br><br>
+    <input type="email" name="correo" required><br><br>
 
     <label>Contraseña</label><br>
-    <input type="password" name="password" required><br><br>
+    <input type="password" name="contrasena" required><br><br>
 
     <button type="submit">Entrar</button>
   </form>
 
-  <p>¿No tienes cuenta? <a href="register.php">Regístrate</a></p>
+  <p>¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
 </body>
 </html>

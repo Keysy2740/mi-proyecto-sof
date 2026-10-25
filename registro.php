@@ -5,26 +5,26 @@ require 'config/database.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name     = trim($_POST['name']);
-    $email    = trim($_POST['email']);
-    $password = $_POST['password'];
+    $nombre     = trim($_POST['nombre']);
+    $correo     = trim($_POST['correo']);
+    $contrasena = $_POST['contrasena'];
 
-    if ($name === '' || $email === '' || strlen($password) < 6) {
+    if ($nombre === '' || $correo === '' || strlen($contrasena) < 6) {
         $error = 'Completa todos los campos. La contraseña debe tener al menos 6 caracteres.';
     } else {
         // Consulta preparada: evita inyección SQL
-        $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
-        $stmt->execute([$email]);
+        $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE correo = ?');
+        $stmt->execute([$correo]);
 
         if ($stmt->fetch()) {
             $error = 'Ese correo ya está registrado.';
         } else {
             // La contraseña se guarda cifrada, nunca en texto plano
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
-            $stmt->execute([$name, $email, $hash]);
+            $hash = password_hash($contrasena, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare('INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)');
+            $stmt->execute([$nombre, $correo, $hash]);
 
-            header('Location: login.php?registrado=1');
+            header('Location: ingreso.php?registrado=1');
             exit;
         }
     }
@@ -46,17 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="POST">
     <label>Nombre</label><br>
-    <input type="text" name="name" required><br><br>
+    <input type="text" name="nombre" required><br><br>
 
     <label>Correo</label><br>
-    <input type="email" name="email" required><br><br>
+    <input type="email" name="correo" required><br><br>
 
     <label>Contraseña</label><br>
-    <input type="password" name="password" required><br><br>
+    <input type="password" name="contrasena" required><br><br>
 
     <button type="submit">Registrarme</button>
   </form>
 
-  <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></p>
+  <p>¿Ya tienes cuenta? <a href="ingreso.php">Inicia sesión</a></p>
 </body>
 </html>

@@ -1,38 +1,39 @@
+DROP DATABASE IF EXISTS liga_basquet;
 CREATE DATABASE liga_basquet CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE liga_basquet;
 
-CREATE TABLE users (
+CREATE TABLE usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  nombre VARCHAR(100) NOT NULL,
+  correo VARCHAR(100) NOT NULL UNIQUE,
+  contrasena VARCHAR(255) NOT NULL,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE teams (
+CREATE TABLE equipos (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  city VARCHAR(100) NOT NULL,
-  coach VARCHAR(100),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  nombre VARCHAR(100) NOT NULL,
+  ciudad VARCHAR(100) NOT NULL,
+  entrenador VARCHAR(100),
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE players (
+CREATE TABLE jugadores (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  team_id INT NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  number INT NOT NULL,
-  position VARCHAR(30) NOT NULL,
-  FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
+  equipo_id INT NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  numero INT NOT NULL,
+  posicion VARCHAR(30) NOT NULL,
+  FOREIGN KEY (equipo_id) REFERENCES equipos(id) ON DELETE CASCADE
 );
 
-CREATE TABLE games (
+CREATE TABLE partidos (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  home_team_id INT NOT NULL,
-  away_team_id INT NOT NULL,
-  home_score INT DEFAULT NULL,
-  away_score INT DEFAULT NULL,
-  game_date DATE NOT NULL,
-  FOREIGN KEY (home_team_id) REFERENCES teams(id) ON DELETE CASCADE,
-  FOREIGN KEY (away_team_id) REFERENCES teams(id) ON DELETE CASCADE
+  equipo_local_id INT NOT NULL,
+  equipo_visitante_id INT NOT NULL,
+  puntos_local INT DEFAULT NULL,
+  puntos_visitante INT DEFAULT NULL,
+  fecha DATE NOT NULL,
+  FOREIGN KEY (equipo_local_id) REFERENCES equipos(id) ON DELETE CASCADE,
+  FOREIGN KEY (equipo_visitante_id) REFERENCES equipos(id) ON DELETE CASCADE
 );
