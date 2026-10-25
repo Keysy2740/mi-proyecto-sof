@@ -20,6 +20,7 @@ if (!isset($_SESSION['usuario_id'])) {
   <p><a href="equipos.php">Gestionar equipos</a></p>
   <p><a href="jugadores.php">Gestionar jugadores</a></p>
   <p><a href="partidos.php">Gestionar partidos</a></p>
+  <p><a href="posiciones.php">Ver tabla de posiciones</a></p>
   <a href="salir.php">Cerrar sesión</a>
 </body>
 </html>
