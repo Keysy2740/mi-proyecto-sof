@@ -1,180 +1,225 @@
+/* Estilos generales de la Liga de Básquetbol */
+/* Colores tomados del logo: naranja, rojo, plata y gris oscuro */
 
-:root {
-  --color-principal: #1d428a;   /* azul de los encabezados */
-  --color-acento:    #f58426;   /* naranja de botones y detalles */
-  --color-fondo:     #f3f5f9;   /* fondo de la página */
-  --color-tarjeta:   #ffffff;   /* fondo de tablas y formularios */
-  --color-texto:     #1f2937;
-  --color-borde:     #d9dee8;
-}
-
-* {
-  box-sizing: border-box;
-}
-
+/* Configuración general de la página */
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--color-fondo);
-  color: var(--color-texto);
-  max-width: 900px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f6f8;
+  color: #222222;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 24px 16px 48px;
-  line-height: 1.5;
+  padding: 20px;
 }
 
-/* ===== Títulos ===== */
+/* Títulos */
 h1 {
-  color: var(--color-principal);
-  border-bottom: 4px solid var(--color-acento);
+  color: #2a2f36;
+  border-bottom: 4px solid #f57c00;
   padding-bottom: 8px;
-  margin-bottom: 20px;
+  margin-top: 25px;
 }
 
-/* ===== Enlaces ===== */
+/* Enlaces */
 a {
-  color: var(--color-principal);
+  color: #e53d12;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 a:hover {
-  color: var(--color-acento);
+  color: #f57c00;
   text-decoration: underline;
 }
 
-/* ===== Tablas ===== */
+/* Encabezado con el logo y el menú */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 8px 20px;
+  border-bottom: 4px solid #f57c00;
+  border-radius: 10px;
+}
+
+.encabezado img {
+  height: 60px;
+}
+
+/* Menú de navegación */
+.navegacion a {
+  color: #2a2f36;
+  padding: 8px 12px;
+  margin-left: 4px;
+}
+
+.navegacion a:hover {
+  color: #e53d12;
+  text-decoration: none;
+}
+
+/* Botón de cerrar sesión dentro del menú */
+.navegacion a.salir {
+  background-color: #2a2f36;
+  color: #ffffff;
+  border-radius: 15px;
+}
+
+/* Portada: bloque principal con el logo */
+.portada {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 35px 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.portada img {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* Botones con forma de enlace */
+.boton {
+  display: inline-block;
+  background-color: #f57c00;
+  color: #ffffff;
+  padding: 10px 25px;
+  margin: 6px;
+  border-radius: 6px;
+}
+
+.boton:hover {
+  background-color: #e53d12;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Tarjetas del panel: se acomodan una al lado de otra */
+.tarjetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.tarjeta {
+  background-color: #ffffff;
+  width: 220px;
+  padding: 22px 18px;
+  border-top: 4px solid #f57c00;
+  border-radius: 8px;
+  color: #2a2f36;
+}
+
+.tarjeta:hover {
+  background-color: #fff3e6;
+  color: #e53d12;
+  text-decoration: none;
+}
+
+/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-tarjeta);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-top: 12px;
+  background-color: #ffffff;
+  margin-top: 15px;
 }
 
 th {
-  background: var(--color-principal);
+  background-color: #2a2f36;
   color: #ffffff;
   text-align: left;
   padding: 12px;
+  border-bottom: 3px solid #f57c00;
 }
 
 td {
   padding: 10px 12px;
-  border-bottom: 1px solid var(--color-borde);
+  border-bottom: 1px solid #dddddd;
 }
 
-tr:nth-child(even) td {
-  background: #f8f9fc;
-}
-
+/* Las filas cambian de color al pasar el mouse */
 tr:hover td {
-  background: #fff3e8;
+  background-color: #fff3e6;
 }
 
-/* ===== Formularios ===== */
+/* Formularios */
 form {
-  background: var(--color-tarjeta);
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   max-width: 420px;
+  border-radius: 8px;
 }
 
-/* El formulario dentro de una tabla (botón Eliminar) no lleva tarjeta */
+/* El formulario del botón Eliminar no lleva fondo blanco */
 td form {
-  background: none;
+  background-color: transparent;
   padding: 0;
-  box-shadow: none;
   max-width: none;
   display: inline;
 }
 
 label {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: bold;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="date"],
+input,
 select {
   width: 100%;
-  padding: 9px 10px;
+  padding: 8px;
   margin-top: 4px;
-  border: 1px solid var(--color-borde);
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 15px;
 }
 
 input:focus,
 select:focus {
+  border-color: #f57c00;
   outline: none;
-  border-color: var(--color-acento);
-  box-shadow: 0 0 0 3px rgba(245, 132, 38, 0.25);
 }
 
-/* El filtro de jugadores no necesita ser ancho */
+/* El filtro de jugadores se ve en una sola línea */
 form[method="GET"] {
   max-width: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
 }
 
 form[method="GET"] select {
   width: auto;
-  margin-top: 0;
 }
 
-/* ===== Botones ===== */
+/* Botones */
 button {
-  background: var(--color-acento);
+  background-color: #f57c00;
   color: #ffffff;
   border: none;
-  padding: 9px 18px;
+  padding: 9px 20px;
   border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
 }
 
 button:hover {
-  background: #d96d12;
+  background-color: #e53d12;
 }
 
-/* El botón Eliminar de las tablas va en rojo y más pequeño */
+/* El botón Eliminar de las tablas es más pequeño y oscuro */
 td button {
-  background: #dc2626;
+  background-color: #2a2f36;
   padding: 5px 12px;
-  font-size: 0.85rem;
+  font-size: 13px;
 }
 
 td button:hover {
-  background: #b91c1c;
+  background-color: #b91c1c;
 }
 
-/* ===== Mensajes ===== */
-p[style*="color:red"] {
-  background: #fee2e2;
-  border-left: 4px solid #dc2626;
-  padding: 10px 14px;
-  border-radius: 4px;
-}
-
-p[style*="color:green"] {
-  background: #dcfce7;
-  border-left: 4px solid #16a34a;
-  padding: 10px 14px;
-  border-radius: 4px;
-}
-
-/* ===== Textos auxiliares ===== */
-p {
-  margin: 10px 0;
+/* Pie de página */
+.pie {
+  text-align: center;
+  color: #777777;
+  font-size: 14px;
+  margin-top: 35px;
 }
