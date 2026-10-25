@@ -37,3 +37,6 @@ CREATE TABLE partidos (
   FOREIGN KEY (equipo_local_id) REFERENCES equipos(id) ON DELETE CASCADE,
   FOREIGN KEY (equipo_visitante_id) REFERENCES equipos(id) ON DELETE CASCADE
 );
+
+INSERT IGNORE INTO usuarios (nombre, correo, contrasena)
+VALUES ('Mario', '123mario@gmail.com.pe', '$2y$10$.77PqahaVqLmgRmdKi8BLOBpmk1wUQMMMKJPIGpi3HzMVAJJtFbOS');
