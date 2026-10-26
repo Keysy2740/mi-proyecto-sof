@@ -71,7 +71,15 @@ El `id <> ?` evita que, al editar, el jugador choque consigo mismo. Todas las co
 - **Reglas de negocio en controladores**, no en vistas.
 - **Limitación conocida:** registro e ingreso consultan la base directamente, sin modelo `Usuario`.
 
-## 7. Ejecución y usuario de prueba
+## 7. Control de versiones
+
+Se trabajó con Git y GitHub: una rama por funcionalidad (`feature/estructura-bd`, `feature/login`, `feature/equipos`, `feature/jugadores`, `feature/partidos`, `feature/modelos`, `feature/controladores`, `feature/estadisticas`, `feature/estilos`, `feature/documentacion`), commits descriptivos y pull requests hacia `main`. El historial se consulta con:
+
+```
+git log --oneline
+```
+
+## 8. Ejecución y usuario de prueba
 
 1. Iniciar Apache y MySQL en XAMPP.
 2. Importar `database/schema.sql` en phpMyAdmin.
@@ -79,10 +87,10 @@ El `id <> ?` evita que, al editar, el jugador choque consigo mismo. Todas las co
 
 **Usuario de prueba** (incluido en el esquema): correo `123mario@gmail.com.pe`, contraseña `Mario123`.
 
-## 8. Herramientas de apoyo
+## 9. Herramientas de apoyo
 
 Se usó un asistente de inteligencia artificial para resolver errores y explicar conceptos. Las imágenes provienen de Unsplash y Pexels.
 
-## 9. Conclusión
+## 10. Conclusión
 
 El problema más difícil fue **conectar Git con GitHub**: no tenía mucha experiencia con control de versiones y me costó configurarlo. Una vez resuelto, el trabajo con ramas y pull requests fue más claro. También aprendí a separar modelo, controlador y vista, lo que permitió reutilizar la lógica en varias páginas.
